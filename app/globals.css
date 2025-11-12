@@ -274,3 +274,88 @@ nav {
     gap: 3rem;
   }
 }
+
+/* Promo Banner */
+.promo-banner {
+  background: var(--color-taupe-900);
+  color: var(--color-cream);
+  text-align: center;
+  padding: 0.75rem 0.75rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 40;
+}
+
+.promo-banner p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(253, 252, 250, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-taupe-200);
+}
+
+nav {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  gap: 2rem;
+}
+
+.logo { 
+  font-size: 1.5rem; 
+  letter-spacing: 0.1em; 
+  color: var(--color-taupe-800);
+  font-weight: 500;
+}
+
+.nav-links { 
+  display: none; 
+  gap: 2rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-links a { 
+  color: var(--color-taupe-700); 
+  transition: color 0.3s;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.nav-links a:hover { color: var(--color-sage-600); }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-actions a {
+  color: var(--color-taupe-700);
+  transition: color 0.3s;
+  font-size: 0.9rem;
+}
+
+.nav-actions a:hover {
+  color: var(--color-sage-600);
+}
+
+.nav-icons { display: flex; align-items: center; gap: 1rem; }
+.icon-btn { padding: 0.5rem; background: none; border: none; color: var(--color-taupe-700); cursor: pointer; transition: color 0.3s; }
+.icon-btn:hover { color: var(--color-sage-600); }

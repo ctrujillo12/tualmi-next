@@ -8,14 +8,29 @@ export default function Page() {
 
   return (
     <main>
+      {/* Promo Banner */}
+      <div className="promo-banner">
+        <p>Pre-Order Now & Save 10% • Be First to Experience Our Autumn Collection • Limited Spots Available</p>
+      </div>
+
       {/* Header */}
       <header>
         <nav>
           <div className="nav-container">
             <div className="logo">TUALMI</div>
             <div className="nav-links">
+              <Link href="#collection">New Arrivals</Link>
+              <Link href="#collection">Women</Link>
+              <Link href="#collection">Outerwear</Link>
+              <Link href="#collection">Layers</Link>
+              <Link href="#collection">Bottoms</Link>
+              <Link href="#about">Our Story</Link>
+              <Link href="#sustainability">Sustainability</Link>
+            </div>
+            <div className="nav-actions">
               <Link href="#collection">Collection</Link>
               <Link href="#about">Our Story</Link>
+              {/* <Link href="#cart">Cart (0)</Link> */}
             </div>
           </div>
         </nav>
@@ -165,12 +180,33 @@ export default function Page() {
             </div>
           </div>
 
+
+          {/* ✨ New Contact Section */}
+          <div className="footer-section">
+            <h4>Contact Us!!</h4>
+            <p>
+              We'd love to hear from you — whether it’s about our gear or your next
+              adventure.
+            </p>
+            <a
+              href="mailto:tualmi-outdoors@gmail.com"
+              style={{
+                color: "var(--color-cream)",
+                textDecoration: "underline",
+                display: "inline-block",
+                marginTop: "0.5rem",
+              }}
+            >
+              tualmi-outdoors@gmail.com
+            </a>
+          </div>
+
           <div className="footer-bottom" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
             <p>&copy; 2025 TUALMI Outdoors. All rights reserved.</p>
             <div className="social-links" style={{ display: "flex", gap: "1rem" }}>
-              <a href="#" aria-label="Instagram">Instagram</a>
-              <a href="#" aria-label="Facebook">Facebook</a>
-              <a href="#" aria-label="Email">Email</a>
+              <a href="https://instagram.com/tualmioutdoors" aria-label="Instagram">Instagram</a>
+              {/* <a href="#" aria-label="Facebook">Facebook</a> */}
+              <a href="mailto:tualmi-outdoors@gmail.com" aria-label="Email">Email</a>
             </div>
           </div>
         </div>

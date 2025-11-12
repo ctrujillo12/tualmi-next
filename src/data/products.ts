@@ -20,9 +20,9 @@ export const products: Product[] = [
     price: 110,
     preOrder: true,
     images: [
-      "/images/pink-fleece.png",
-      "/images/polka-fleece.png",
-      "/images/yellow-fleece.png",
+      "/images/pink-fleece-bg.png",
+      "/images/polka-fleece-bg.png",
+      "/images/yellow-fleece-bg.png",
     ],
     colors: [
       {
