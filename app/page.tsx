@@ -1,65 +1,180 @@
 import Image from "next/image";
+import Link from "next/link";
+import { products } from "@/src/data/products"; 
 
-export default function Home() {
+export default function Page() {
+  const heroImage = "/images/tuolumne.jpg";
+  const aboutImage = "/images/tuolumne.jpg"; // Replace with your About image
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main>
+      {/* Header */}
+      <header>
+        <nav>
+          <div className="nav-container">
+            <div className="logo">TUALMI</div>
+            <div className="nav-links">
+              <Link href="#collection">Collection</Link>
+              <Link href="#about">Our Story</Link>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <section className="hero">
+        <div className="hero-bg">
+          <Image
+            src={heroImage}
+            alt="Hero image"
+            fill
+            style={{ objectFit: "cover" }}
+          />
+          <div className="hero-overlay" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        <div className="hero-content">
+          <div className="hero-text">
+            <p className="hero-label">Introducing Autumn Collection 2025</p>
+            <h1 className="hero-title">Where Adventure Meets Elegance</h1>
+            <p className="hero-description">
+              Sustainable outdoor wear designed for the modern woman who refuses to
+              choose between performance and femininity.
+            </p>
+            <div className="hero-buttons">
+              <a href="#collection" className="btn-primary">Shop Collection</a>
+              <a href="#about" className="btn-secondary">Our Story</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Collection */}
+      <section id="collection" className="section" style={{ background: "var(--color-cream)" }}>
+        <div className="container">
+          <div className="section-header">
+            <p className="section-label">Autumn Collection 2025</p>
+            <h2 className="section-title">The Adventure Begins</h2>
+            <p className="section-description">
+              Each piece is thoughtfully designed to accompany you on your journey,
+              crafted from sustainable materials without compromising on style or performance.
+            </p>
+          </div>
+
+          <div className="product-grid grid-2-columns">
+            {products.map((product) => (
+              <Link 
+                key={product.slug} 
+                href={`/products/${product.slug}`} 
+                className="product-card"
+              >
+                <div className="product-image-container">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="product-image"
+                    width={500}
+                    height={600}
+                  />
+                  <div className="product-overlay" />
+                </div>
+                <div className="product-details">
+                  <p className="details-category">{product.colors[0].name}</p>
+                  <h3 className="details-name">{product.name}</h3>
+                  <p className="details-price">${product.price}</p>
+                </div>
+                {product.preOrder && (
+                  <button className="btn-preorder">Pre-Order Now</button>
+                )}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="section" style={{ background: "var(--color-rose-50)" }}>
+        <div className="container">
+          <div className="section-header">
+            <p className="section-label">Our Story</p>
+            <h2 className="section-title">Sustainably Crafted, Elegantly Designed</h2>
+            <p className="section-description">
+              At TUALMI, we believe outdoor wear should empower women to embrace adventure without compromising style. 
+              Every piece in our collection is made from sustainable materials and designed to perform in any journey.
+            </p>
+          </div>
+          <div className="about-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={aboutImage}
+              alt="About image"
+              width={800}
+              height={400}
+              style={{ objectFit: "cover", borderRadius: "8px" }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <p style={{ maxWidth: "700px", textAlign: "center", color: "var(--color-taupe-700)", fontSize: "1rem", lineHeight: "1.6" }}>
+              Our journey began with a passion for functional design and a commitment to sustainability. 
+              From the choice of fabrics to the smallest stitch, TUALMI creates clothing that celebrates elegance, 
+              durability, and the spirit of adventure.
+            </p>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: "var(--color-taupe-900)", color: "var(--color-cream)", padding: "4rem 0" }}>
+        <div className="container">
+          <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2rem", marginBottom: "2rem" }}>
+            <div className="footer-brand">
+              <h3 style={{ marginBottom: "1rem" }}>TUALMI</h3>
+              <p>
+                Sustainable outdoor wear for the modern woman who embraces 
+                adventure with elegance.
+              </p>
+            </div>
+
+            <div className="footer-section">
+              <h4>Shop</h4>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <li><a href="#collection">New Arrivals</a></li>
+                <li><a href="#collection">Outerwear</a></li>
+                <li><a href="#collection">Layers</a></li>
+                <li><a href="#collection">Bottoms</a></li>
+                <li><a href="#collection">Accessories</a></li>
+              </ul>
+            </div>
+
+            <div className="footer-section">
+              <h4>Company</h4>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <li><a href="#about">Our Story</a></li>
+                <li><a href="#sustainability">Sustainability</a></li>
+                <li><a href="#journal">Journal</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Careers</a></li>
+              </ul>
+            </div>
+
+            <div className="footer-section">
+              <h4>Support</h4>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Shipping & Returns</a></li>
+                <li><a href="#">Size Guide</a></li>
+                <li><a href="#">Care Instructions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="footer-bottom" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
+            <p>&copy; 2025 TUALMI Outdoors. All rights reserved.</p>
+            <div className="social-links" style={{ display: "flex", gap: "1rem" }}>
+              <a href="#" aria-label="Instagram">Instagram</a>
+              <a href="#" aria-label="Facebook">Facebook</a>
+              <a href="#" aria-label="Email">Email</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 }
