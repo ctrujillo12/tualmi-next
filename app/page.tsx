@@ -4,7 +4,7 @@ import { products } from "@/src/data/products";
 
 export default function Page() {
   const heroImage = "/images/hero.jpg";
-  const aboutImage = "/images/tuolumne.jpg"; // Replace with your About image
+  // const aboutImage = "/images/tuolumne.jpg"; // Replace with your About image
 
   return (
     <main>
@@ -118,13 +118,13 @@ export default function Page() {
             </p>
           </div>
           <div className="about-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
-            <Image
-              src={aboutImage}
-              alt="About image"
+            {/* <Image
+              // src={aboutImage}
+              // alt="About image"
               width={800}
               height={400}
               style={{ objectFit: "cover", borderRadius: "8px" }}
-            />
+            /> */}
             <p style={{ maxWidth: "700px", textAlign: "center", color: "var(--color-taupe-700)", fontSize: "1rem", lineHeight: "1.6" }}>
               Our journey began with a passion for functional design and a commitment to sustainability. 
               From the choice of fabrics to the smallest stitch, TUALMI creates clothing that celebrates elegance, 
