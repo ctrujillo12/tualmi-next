@@ -18,7 +18,7 @@ export default function Page() {
         <nav>
           <div className="nav-container">
             <div className="logo">TUALMI</div>
-            <div className="nav-links">
+            {/* <div className="nav-links">
               <Link href="#collection">New Arrivals</Link>
               <Link href="#collection">Women</Link>
               <Link href="#collection">Outerwear</Link>
@@ -26,7 +26,7 @@ export default function Page() {
               <Link href="#collection">Bottoms</Link>
               <Link href="#about">Our Story</Link>
               <Link href="#sustainability">Sustainability</Link>
-            </div>
+            </div> */}
             <div className="nav-actions">
               <Link href="#collection">Collection</Link>
               <Link href="#about">Our Story</Link>
