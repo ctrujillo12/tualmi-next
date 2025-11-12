@@ -3,7 +3,7 @@ import Link from "next/link";
 import { products } from "@/src/data/products"; 
 
 export default function Page() {
-  const heroImage = "/images/tuolumne.jpg";
+  const heroImage = "/images/hero.jpg";
   const aboutImage = "/images/tuolumne.jpg"; // Replace with your About image
 
   return (
