@@ -3,14 +3,13 @@ import Link from "next/link";
 import { products } from "@/src/data/products"; 
 
 export default function Page() {
-  const heroImage = "/images/hero.jpg";
-  // const aboutImage = "/images/tuolumne.jpg"; // Replace with your About image
+  const heroImage = "/images/hero7.jpg";
 
   return (
     <main>
       {/* Promo Banner */}
       <div className="promo-banner">
-        <p>Pre-Order Now & Save 10% • Be First to Experience Our Autumn Collection • Limited Spots Available</p>
+        <p>Pre-Order Now & Save 10% • Limited Spots Available</p>
       </div>
 
       {/* Header */}
@@ -18,19 +17,9 @@ export default function Page() {
         <nav>
           <div className="nav-container">
             <div className="logo">TUALMI</div>
-            {/* <div className="nav-links">
-              <Link href="#collection">New Arrivals</Link>
-              <Link href="#collection">Women</Link>
-              <Link href="#collection">Outerwear</Link>
-              <Link href="#collection">Layers</Link>
-              <Link href="#collection">Bottoms</Link>
-              <Link href="#about">Our Story</Link>
-              <Link href="#sustainability">Sustainability</Link>
-            </div> */}
             <div className="nav-actions">
               <Link href="#collection">Collection</Link>
               <Link href="#about">Our Story</Link>
-              {/* <Link href="#cart">Cart (0)</Link> */}
             </div>
           </div>
         </nav>
@@ -111,25 +100,18 @@ export default function Page() {
         <div className="container">
           <div className="section-header">
             <p className="section-label">Our Story</p>
-            <h2 className="section-title">Sustainably Crafted, Elegantly Designed</h2>
+            <h2 className="section-title">Made in LA, Designed for Adventure</h2>
             <p className="section-description">
-              At TUALMI, we believe outdoor wear should empower women to embrace adventure without compromising style. 
-              Every piece in our collection is made from sustainable materials and designed to perform in any journey.
+              We manufacture all our pieces in Los Angeles using sustainable materials. 
+              Our goal is to create outdoor wear that empowers women to embrace every adventure 
+              with confidence and style—no compromises.
             </p>
           </div>
           <div className="about-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
-            {/* <Image
-              // src={aboutImage}
-              // alt="About image"
-              width={800}
-              height={400}
-              style={{ objectFit: "cover", borderRadius: "8px" }}
-            /> */}
-            <p style={{ maxWidth: "700px", textAlign: "center", color: "var(--color-taupe-700)", fontSize: "1rem", lineHeight: "1.6" }}>
-              Our journey began with a passion for functional design and a commitment to sustainability. 
-              From the choice of fabrics to the smallest stitch, TUALMI creates clothing that celebrates elegance, 
-              durability, and the spirit of adventure.
-            </p>
+            {/* <p style={{ maxWidth: "700px", textAlign: "center", color: "var(--color-taupe-700)", fontSize: "1rem", lineHeight: "1.6" }}>
+              From technical fabrics to thoughtful design details, every piece celebrates 
+              the balance between performance and femininity. Built for the trail, refined for everywhere.
+            </p> */}
           </div>
         </div>
       </section>
@@ -180,12 +162,11 @@ export default function Page() {
             </div>
           </div>
 
-
-          {/* ✨ New Contact Section */}
+          {/* Contact Section */}
           <div className="footer-section">
-            <h4>Contact Us!!</h4>
+            <h4>Contact Us</h4>
             <p>
-              We'd love to hear from you — whether it’s about our gear or your next
+              We'd love to hear from you — whether it's about our gear or your next
               adventure.
             </p>
             <a
@@ -205,7 +186,6 @@ export default function Page() {
             <p>&copy; 2025 TUALMI Outdoors. All rights reserved.</p>
             <div className="social-links" style={{ display: "flex", gap: "1rem" }}>
               <a href="https://instagram.com/tualmioutdoors" aria-label="Instagram">Instagram</a>
-              {/* <a href="#" aria-label="Facebook">Facebook</a> */}
               <a href="mailto:tualmi-outdoors@gmail.com" aria-label="Email">Email</a>
             </div>
           </div>

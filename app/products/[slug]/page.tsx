@@ -12,8 +12,8 @@ interface Params {
 export default function ProductPage({ params }: { params: Promise<Params> }) {
   const { slug } = use(params);
   const product = products.find(p => p.slug === slug);
-  const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +32,14 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
       </main>
     );
   }
+
+  // Get the current color's images
+  const currentColorImages = product.colors[selectedColor]?.images || product.images;
+
+  const handleColorChange = (colorIndex: number) => {
+    setSelectedColor(colorIndex);
+    setSelectedImage(0); // Reset to first image of new color
+  };
 
   const handlePreOrder = () => {
     if (!selectedSize) return;
@@ -107,19 +115,20 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
                 aspectRatio: "5/6",
                 borderRadius: "8px",
                 overflow: "hidden",
-                marginBottom: "1rem"
+                marginBottom: "1rem",
+                background: "var(--color-taupe-100)"
               }}>
                 <Image
-                  src={product.images[selectedImage]}
-                  alt={`${product.name} view ${selectedImage + 1}`}
+                  src={currentColorImages[selectedImage]}
+                  alt={`${product.name} ${product.colors[selectedColor].name} view ${selectedImage + 1}`}
                   fill
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "contain" }}
                 />
               </div>
               
               {/* Thumbnail Gallery */}
               <div style={{ display: "flex", gap: "0.5rem", overflowX: "auto" }}>
-                {product.images.map((img, i) => (
+                {currentColorImages.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
@@ -132,14 +141,15 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
                       border: selectedImage === i ? "2px solid var(--color-sage-600)" : "2px solid transparent",
                       cursor: "pointer",
                       transition: "all 0.3s ease",
-                      opacity: selectedImage === i ? 1 : 0.6
+                      opacity: selectedImage === i ? 1 : 0.6,
+                      background: "var(--color-taupe-100)"
                     }}
                   >
                     <Image
                       src={img}
                       alt={`Thumbnail ${i + 1}`}
                       fill
-                      style={{ objectFit: "cover" }}
+                      style={{ objectFit: "contain" }}
                     />
                   </button>
                 ))}
@@ -169,7 +179,7 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
                   {product.colors.map((color, i) => (
                     <button
                       key={i}
-                      onClick={() => setSelectedColor(i)}
+                      onClick={() => handleColorChange(i)}
                       style={{
                         width: "50px",
                         height: "50px",
@@ -181,6 +191,7 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
                         boxShadow: selectedColor === i ? "0 4px 12px rgba(0,0,0,0.15)" : "none"
                       }}
                       title={color.name}
+                      aria-label={`Select ${color.name} color`}
                     />
                   ))}
                 </div>

@@ -1,7 +1,7 @@
 export interface ProductColor {
   name: string;
-  image: string;
   gradient: string;
+  images: string[]; // Changed from 'image' to 'images' array
 }
 
 export interface Product {
@@ -27,21 +27,18 @@ export const products: Product[] = [
     colors: [
       {
         name: "Pink",
-        image: "/images/pink-fleece.png",
-        gradient:
-          "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
+        gradient: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
+        images: ["/images/pink-fleece-bg.png"], // Array of images for this color
       },
       {
         name: "Polka",
-        image: "/images/polka-fleece.png",
-        gradient:
-          "linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)",
+        gradient: "linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)",
+        images: ["/images/polka-fleece-bg.png"],
       },
       {
         name: "Yellow",
-        image: "/images/yellow-fleece.png",
-        gradient:
-          "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+        gradient: "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+        images: ["/images/yellow-fleece-bg.png"],
       },
     ],
   },
@@ -57,15 +54,13 @@ export const products: Product[] = [
     colors: [
       {
         name: "White",
-        image: "/images/white-pants.png",
-        gradient:
-          "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
+        gradient: "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
+        images: ["/images/white-pants.png"],
       },
       {
         name: "Brown",
-        image: "/images/brown-pants-bg.png",
-        gradient:
-          "linear-gradient(135deg, #d7ccc8 0%, #a1887f 100%)",
+        gradient: "linear-gradient(135deg, #d7ccc8 0%, #a1887f 100%)",
+        images: ["/images/brown-pants-bg.png"],
       },
     ],
   },
@@ -81,15 +76,13 @@ export const products: Product[] = [
     colors: [
       {
         name: "Olive",
-        image: "/images/olive-pants-bg.png",
-        gradient:
-          "linear-gradient(135deg, #a5b68d 0%, #7d8f69 100%)",
+        gradient: "linear-gradient(135deg, #a5b68d 0%, #7d8f69 100%)",
+        images: ["/images/olive-pants-bg.png"],
       },
       {
         name: "Gray",
-        image: "/images/gray-pants-bg.png",
-        gradient:
-          "linear-gradient(135deg, #bdbdbd 0%, #9e9e9e 100%)",
+        gradient: "linear-gradient(135deg, #bdbdbd 0%, #9e9e9e 100%)",
+        images: ["/images/gray-pants-bg.png"],
       },
     ],
   },
@@ -102,9 +95,8 @@ export const products: Product[] = [
     colors: [
       {
         name: "Yellow",
-        image: "/images/yellow-shorts-bg.png",
-        gradient:
-          "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+        gradient: "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+        images: ["/images/yellow-shorts-bg.png"],
       },
     ],
   },
@@ -117,9 +109,8 @@ export const products: Product[] = [
     colors: [
       {
         name: "Default",
-        image: "/images/carabiner.png",
-        gradient:
-          "linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%)",
+        gradient: "linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%)",
+        images: ["/images/carabiner.png"],
       },
     ],
   },
