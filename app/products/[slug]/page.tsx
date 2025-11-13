@@ -22,8 +22,8 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
 
   if (!product) {
     return (
-      <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ textAlign: "center" }}>
+      <main className="not-found">
+        <div>
           <h1>Product not found</h1>
           <Link href="/" style={{ color: "var(--color-sage-600)", textDecoration: "underline" }}>
             Return to home
@@ -33,12 +33,11 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
     );
   }
 
-  // Get the current color's images
   const currentColorImages = product.colors[selectedColor]?.images || product.images;
 
   const handleColorChange = (colorIndex: number) => {
     setSelectedColor(colorIndex);
-    setSelectedImage(0); // Reset to first image of new color
+    setSelectedImage(0);
   };
 
   const handlePreOrder = () => {
@@ -48,34 +47,23 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     try {
       const totalPrice = (product.price * quantity * 0.85).toFixed(2);
-      
-      const response = await fetch('/api/preorder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await fetch("/api/preorder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
           product: product.name,
           color: product.colors[selectedColor].name,
           size: selectedSize,
           quantity,
-          totalPrice
+          totalPrice,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit pre-order');
-      }
-
-      const data = await response.json();
-      console.log("Pre-order successful:", data);
+      if (!response.ok) throw new Error("Failed to submit pre-order");
       setSubmitted(true);
-      
-      // Reset after 3 seconds
       setTimeout(() => {
         setShowModal(false);
         setSubmitted(false);
@@ -90,10 +78,12 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
   return (
     <main>
       {/* Header */}
-      <header style={{ background: "var(--color-cream)", borderBottom: "1px solid var(--color-taupe-200)" }}>
+      <header className="header">
         <nav>
           <div className="nav-container">
-            <Link href="/" className="logo">TUALMI</Link>
+            <Link href="/" className="logo">
+              TUALMI
+            </Link>
             <div className="nav-links">
               <Link href="/#collection">Collection</Link>
               <Link href="/#about">Our Story</Link>
@@ -103,21 +93,12 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
       </header>
 
       {/* Product Content */}
-      <section style={{ padding: "4rem 2rem", background: "var(--color-cream)" }}>
-        <div className="container" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
-            
+      <section className="product-section">
+        <div className="container">
+          <div className="product-grid">
             {/* Image Gallery */}
-            <div style={{ position: "sticky", top: "2rem" }}>
-              <div style={{ 
-                position: "relative", 
-                width: "100%", 
-                aspectRatio: "5/6",
-                borderRadius: "8px",
-                overflow: "hidden",
-                marginBottom: "1rem",
-                background: "var(--color-taupe-100)"
-              }}>
+            <div className="gallery">
+              <div className="main-image">
                 <Image
                   src={currentColorImages[selectedImage]}
                   alt={`${product.name} ${product.colors[selectedColor].name} view ${selectedImage + 1}`}
@@ -125,71 +106,38 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
                   style={{ objectFit: "contain" }}
                 />
               </div>
-              
-              {/* Thumbnail Gallery */}
-              <div style={{ display: "flex", gap: "0.5rem", overflowX: "auto" }}>
+
+              <div className="thumbnails">
                 {currentColorImages.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
-                    style={{
-                      position: "relative",
-                      width: "80px",
-                      height: "96px",
-                      borderRadius: "4px",
-                      overflow: "hidden",
-                      border: selectedImage === i ? "2px solid var(--color-sage-600)" : "2px solid transparent",
-                      cursor: "pointer",
-                      transition: "all 0.3s ease",
-                      opacity: selectedImage === i ? 1 : 0.6,
-                      background: "var(--color-taupe-100)"
-                    }}
+                    className={`thumb ${selectedImage === i ? "active" : ""}`}
                   >
-                    <Image
-                      src={img}
-                      alt={`Thumbnail ${i + 1}`}
-                      fill
-                      style={{ objectFit: "contain" }}
-                    />
+                    <Image src={img} alt={`Thumbnail ${i + 1}`} fill style={{ objectFit: "contain" }} />
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Product Details */}
-            <div>
-              <div style={{ marginBottom: "2rem" }}>
-                <p style={{ color: "var(--color-sage-600)", fontSize: "0.875rem", fontWeight: "500", marginBottom: "0.5rem" }}>
-                  {product.preOrder ? "PRE-ORDER" : "IN STOCK"}
-                </p>
-                <h1 style={{ fontSize: "2.5rem", fontWeight: "300", marginBottom: "1rem", color: "var(--color-taupe-900)" }}>
-                  {product.name}
-                </h1>
-                <p style={{ fontSize: "1.5rem", color: "var(--color-taupe-700)" }}>
-                  ${product.price}
-                </p>
+            <div className="details">
+              <div className="meta">
+                <p className="preorder">{product.preOrder ? "PRE-ORDER" : "IN STOCK"}</p>
+                <h1 className="title">{product.name}</h1>
+                <p className="price">${product.price}</p>
               </div>
 
               {/* Color Selection */}
-              <div style={{ marginBottom: "2rem" }}>
-                <label style={{ display: "block", fontSize: "0.875rem", fontWeight: "500", marginBottom: "1rem", color: "var(--color-taupe-900)" }}>
-                  Color: {product.colors[selectedColor].name}
-                </label>
-                <div style={{ display: "flex", gap: "0.75rem" }}>
+              <div className="option">
+                <label>Color: {product.colors[selectedColor].name}</label>
+                <div className="color-row">
                   {product.colors.map((color, i) => (
                     <button
                       key={i}
                       onClick={() => handleColorChange(i)}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                        background: color.gradient,
-                        border: selectedColor === i ? "3px solid var(--color-taupe-900)" : "2px solid var(--color-taupe-300)",
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        boxShadow: selectedColor === i ? "0 4px 12px rgba(0,0,0,0.15)" : "none"
-                      }}
+                      className={`color-btn ${selectedColor === i ? "active" : ""}`}
+                      style={{ background: color.gradient }}
                       title={color.name}
                       aria-label={`Select ${color.name} color`}
                     />
@@ -198,26 +146,14 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
               </div>
 
               {/* Size Selection */}
-              <div style={{ marginBottom: "2rem" }}>
-                <label style={{ display: "block", fontSize: "0.875rem", fontWeight: "500", marginBottom: "1rem", color: "var(--color-taupe-900)" }}>
-                  Size
-                </label>
-                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                  {["XS", "S", "M", "L", "XL"].map((size) => (
+              <div className="option">
+                <label>Size</label>
+                <div className="size-row">
+                  {["XS", "S", "M", "L", "XL"].map(size => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      style={{
-                        padding: "0.75rem 1.5rem",
-                        border: selectedSize === size ? "2px solid var(--color-taupe-900)" : "1px solid var(--color-taupe-300)",
-                        background: selectedSize === size ? "var(--color-taupe-900)" : "transparent",
-                        color: selectedSize === size ? "var(--color-cream)" : "var(--color-taupe-900)",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "0.875rem",
-                        fontWeight: "500",
-                        transition: "all 0.3s ease"
-                      }}
+                      className={`size-btn ${selectedSize === size ? "active" : ""}`}
                     >
                       {size}
                     </button>
@@ -226,44 +162,12 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
               </div>
 
               {/* Quantity */}
-              <div style={{ marginBottom: "2rem" }}>
-                <label style={{ display: "block", fontSize: "0.875rem", fontWeight: "500", marginBottom: "1rem", color: "var(--color-taupe-900)" }}>
-                  Quantity
-                </label>
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      border: "1px solid var(--color-taupe-300)",
-                      background: "transparent",
-                      cursor: "pointer",
-                      fontSize: "1.25rem",
-                      color: "var(--color-taupe-900)",
-                      borderRadius: "4px"
-                    }}
-                  >
-                    −
-                  </button>
-                  <span style={{ fontSize: "1rem", minWidth: "40px", textAlign: "center" }}>
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      border: "1px solid var(--color-taupe-300)",
-                      background: "transparent",
-                      cursor: "pointer",
-                      fontSize: "1.25rem",
-                      color: "var(--color-taupe-900)",
-                      borderRadius: "4px"
-                    }}
-                  >
-                    +
-                  </button>
+              <div className="option">
+                <label>Quantity</label>
+                <div className="quantity">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => setQuantity(quantity + 1)}>+</button>
                 </div>
               </div>
 
@@ -272,32 +176,19 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
                 disabled={!selectedSize}
                 onClick={handlePreOrder}
                 className="btn-primary"
-                style={{
-                  width: "100%",
-                  padding: "1rem",
-                  fontSize: "1rem",
-                  opacity: !selectedSize ? 0.5 : 1,
-                  cursor: !selectedSize ? "not-allowed" : "pointer"
-                }}
               >
                 {product.preOrder ? "Pre-Order Now" : "Add to Cart"}
               </button>
 
-              {!selectedSize && (
-                <p style={{ fontSize: "0.875rem", color: "var(--color-taupe-600)", marginTop: "0.5rem" }}>
-                  Please select a size
-                </p>
-              )}
+              {!selectedSize && <p className="size-warning">Please select a size</p>}
 
               {/* Product Description */}
-              <div style={{ marginTop: "3rem", paddingTop: "3rem", borderTop: "1px solid var(--color-taupe-200)" }}>
-                <h3 style={{ fontSize: "1.25rem", marginBottom: "1rem", color: "var(--color-taupe-900)" }}>
-                  Product Details
-                </h3>
-                <p style={{ color: "var(--color-taupe-700)", lineHeight: "1.6" }}>
-                  Crafted from sustainable materials with meticulous attention to detail, 
-                  this piece combines performance with elegance. Perfect for outdoor adventures 
-                  without compromising on style.
+              <div className="description">
+                <h3>Product Details</h3>
+                <p>
+                  Crafted from sustainable materials with meticulous attention to detail, this piece
+                  combines performance with elegance. Perfect for outdoor adventures without
+                  compromising on style.
                 </p>
               </div>
             </div>
@@ -305,148 +196,45 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
         </div>
       </section>
 
-      {/* Pre-Order Modal */}
+      {/* Preorder Modal */}
       {showModal && (
-        <div 
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-            padding: "1rem"
-          }}
-          onClick={() => setShowModal(false)}
-        >
-          <div 
-            style={{
-              background: "var(--color-cream)",
-              borderRadius: "12px",
-              padding: "2.5rem",
-              maxWidth: "500px",
-              width: "100%",
-              position: "relative"
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setShowModal(false)}
-              style={{
-                position: "absolute",
-                top: "1rem",
-                right: "1rem",
-                background: "transparent",
-                border: "none",
-                fontSize: "1.5rem",
-                cursor: "pointer",
-                color: "var(--color-taupe-600)"
-              }}
-            >
-              ×
-            </button>
+        <div className="modal-backdrop" onClick={() => setShowModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <button className="close" onClick={() => setShowModal(false)}>×</button>
 
             {!submitted ? (
               <>
-                <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-                  <div style={{
-                    display: "inline-block",
-                    background: "var(--color-sage-100)",
-                    color: "var(--color-sage-700)",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "20px",
-                    fontSize: "0.875rem",
-                    fontWeight: "500",
-                    marginBottom: "1rem"
-                  }}>
-                    🎉 Early Access
-                  </div>
-                  <h2 style={{ fontSize: "2rem", marginBottom: "0.5rem", color: "var(--color-taupe-900)" }}>
-                    Reserve Your Spot
-                  </h2>
-                  <p style={{ color: "var(--color-taupe-600)", fontSize: "0.875rem" }}>
+                <div className="modal-header">
+                  <div className="badge">🎉 Early Access</div>
+                  <h2>Reserve Your Spot</h2>
+                  <p>
                     {product.name} • {product.colors[selectedColor].name} • Size {selectedSize} • Qty {quantity}
                   </p>
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                  <div style={{ marginBottom: "1.5rem" }}>
-                    <label style={{ 
-                      display: "block", 
-                      fontSize: "0.875rem", 
-                      fontWeight: "500", 
-                      marginBottom: "0.5rem",
-                      color: "var(--color-taupe-900)"
-                    }}>
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      placeholder="you@example.com"
-                      style={{
-                        width: "100%",
-                        padding: "0.75rem",
-                        border: "1px solid var(--color-taupe-300)",
-                        borderRadius: "6px",
-                        fontSize: "1rem",
-                        background: "white"
-                      }}
-                    />
-                    <p style={{ fontSize: "0.75rem", color: "var(--color-taupe-600)", marginTop: "0.5rem" }}>
-                      Join our newsletter for exclusive updates and early access
-                    </p>
+                  <label>Email Address</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    required
+                    placeholder="you@example.com"
+                  />
+                  <p className="hint">Join our newsletter for exclusive updates</p>
+
+                  <div className="note">
+                    ✨ Something special is coming your way. Stay tuned for exclusive details.
                   </div>
 
-                  <div style={{
-                    background: "var(--color-rose-50)",
-                    padding: "1.5rem",
-                    borderRadius: "8px",
-                    marginBottom: "1.5rem",
-                    textAlign: "center"
-                  }}>
-                    <p style={{ 
-                      color: "var(--color-taupe-700)", 
-                      fontSize: "1rem",
-                      lineHeight: "1.6"
-                    }}>
-                      ✨ Something special is coming your way. Stay tuned for exclusive details and pricing.
-                    </p>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn-primary"
-                    style={{
-                      width: "100%",
-                      padding: "1rem",
-                      fontSize: "1rem",
-                      marginBottom: "1rem"
-                    }}
-                  >
-                    Save My Spot
-                  </button>
-
-                  <p style={{ fontSize: "0.75rem", textAlign: "center", color: "var(--color-taupe-600)" }}>
-                    We'll send you a payment link and all the details via email
-                  </p>
+                  <button type="submit" className="btn-primary">Save My Spot</button>
                 </form>
               </>
             ) : (
-              <div style={{ textAlign: "center", padding: "2rem 0" }}>
-                <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✓</div>
-                <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem", color: "var(--color-taupe-900)" }}>
-                  Thank You!
-                </h3>
-                <p style={{ color: "var(--color-taupe-600)" }}>
-                  Check your email for your payment link and order details.
-                </p>
+              <div className="thank-you">
+                <div className="check">✓</div>
+                <h3>Thank You!</h3>
+                <p>Check your email for your payment link and order details.</p>
               </div>
             )}
           </div>
@@ -454,16 +242,213 @@ export default function ProductPage({ params }: { params: Promise<Params> }) {
       )}
 
       {/* Footer */}
-      <footer style={{ background: "var(--color-taupe-900)", color: "var(--color-cream)", padding: "4rem 0" }}>
+      <footer className="footer">
         <div className="container">
-          <div style={{ textAlign: "center" }}>
-            <Link href="/" className="logo" style={{ fontSize: "1.5rem", marginBottom: "1rem", display: "inline-block" }}>
-              TUALMI
-            </Link>
-            <p style={{ marginTop: "1rem" }}>&copy; 2025 TUALMI Outdoors. All rights reserved.</p>
+          <div className="footer-content">
+            <Link href="/" className="logo">TUALMI</Link>
+            <p>&copy; 2025 TUALMI Outdoors. All rights reserved.</p>
           </div>
         </div>
       </footer>
+
+      {/* Styles */}
+      <style jsx>{`
+        .header {
+          background: var(--color-cream);
+          border-bottom: 1px solid var(--color-taupe-200);
+        }
+
+        .product-section {
+          padding: 4rem 2rem;
+          background: var(--color-cream);
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .product-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4rem;
+          align-items: start;
+        }
+
+        .main-image {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 5/6;
+          border-radius: 8px;
+          overflow: hidden;
+          background: var(--color-taupe-100);
+          margin-bottom: 1rem;
+        }
+
+        .thumbnails {
+          display: flex;
+          gap: 0.5rem;
+          overflow-x: auto;
+        }
+
+        .thumb {
+          position: relative;
+          width: 80px;
+          height: 96px;
+          border-radius: 4px;
+          overflow: hidden;
+          border: 2px solid transparent;
+          opacity: 0.6;
+          flex-shrink: 0;
+        }
+
+        .thumb.active {
+          border-color: var(--color-sage-600);
+          opacity: 1;
+        }
+
+        .details .title {
+          font-size: 2.5rem;
+          font-weight: 300;
+          color: var(--color-taupe-900);
+        }
+
+        .details .price {
+          font-size: 1.5rem;
+          color: var(--color-taupe-700);
+        }
+
+        .option {
+          margin: 2rem 0;
+        }
+
+        .color-row,
+        .size-row {
+          display: flex;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+        }
+
+        .color-btn {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          border: 2px solid var(--color-taupe-300);
+        }
+
+        .color-btn.active {
+          border: 3px solid var(--color-taupe-900);
+        }
+
+        .size-btn {
+          padding: 0.75rem 1.25rem;
+          border: 1px solid var(--color-taupe-300);
+          border-radius: 4px;
+        }
+
+        .size-btn.active {
+          background: var(--color-taupe-900);
+          color: var(--color-cream);
+        }
+
+        .quantity {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .quantity button {
+          width: 40px;
+          height: 40px;
+        }
+
+        .btn-primary {
+          width: 100%;
+          padding: 1rem;
+          background: var(--color-sage-600);
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-size: 1rem;
+        }
+
+        .modal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+        }
+
+        .modal {
+          background: var(--color-cream);
+          border-radius: 12px;
+          padding: 2rem;
+          width: 100%;
+          max-width: 480px;
+          position: relative;
+        }
+
+        .close {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+        }
+
+        /* 📱 Responsive Styles */
+        @media (max-width: 768px) {
+          .product-section {
+            padding: 2rem 1rem;
+          }
+
+          .product-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+
+          .gallery {
+            position: static;
+          }
+
+          .main-image {
+            aspect-ratio: 1/1;
+          }
+
+          .details .title {
+            font-size: 1.75rem;
+          }
+
+          .details .price {
+            font-size: 1.25rem;
+          }
+
+          .btn-primary {
+            padding: 0.75rem;
+          }
+
+          .modal {
+            padding: 1.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .main-image {
+            aspect-ratio: 1/1;
+          }
+          .thumb {
+            width: 64px;
+            height: 64px;
+          }
+          .details .title {
+            font-size: 1.5rem;
+          }
+        }
+      `}</style>
     </main>
   );
 }
